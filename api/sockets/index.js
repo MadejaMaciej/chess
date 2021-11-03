@@ -1,12 +1,28 @@
 var socketsMain = (io) =>{
     var playerCounter = 0
+    var gamesCounter = 0
     io.on('connection', (socket) => {
         joinRoom(socket, 'main')
         playerCounter++
-        io.in('main').emit('displayPlayersOnline', playerCounter)
+        io.in('main').emit('displayPlayersOnline', (playerCounter, gamesCounter))
+
+        socket.on('enteredMain', () => {
+            socket.emit('displayPlayersOnline', (playerCounter, gamesCounter))
+        })
+        
+        socket.on('gameStarted', () => {
+            gamesCounter++
+            io.in('main').emit('displayPlayersOnline', (playerCounter, gamesCounter))
+        })
+
+        socket.on('gameEnded', () => {
+            gamesCounter--
+            io.in('main').emit('displayPlayersOnline', (playerCounter, gamesCounter))
+        })
+
         socket.on('disconnect', ()=>{
             playerCounter--
-            io.in('main').emit('displayPlayersOnline', playerCounter)
+            io.in('main').emit('displayPlayersOnline', (playerCounter, gamesCounter))
         })
     })
 }
