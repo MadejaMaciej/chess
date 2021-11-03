@@ -56,8 +56,8 @@ function validateUser(user) {
         temporaryToken: Joi.string().required()
     })
     const validation = schema.validate(user)
-    return validation;
+    return validation
 }
  
-exports.User = User;
-exports.validate = validateUser;
+exports.User = User
+exports.validate = validateUser

@@ -44,8 +44,8 @@ function validateGame(game) {
            logs: Joi.array().required()
     })
     const validation = schema.validate(game)
-    return validation;
+    return validation
 }
  
-exports.Game = Game;
-exports.validate = validateGame;
+exports.Game = Game
+exports.validate = validateGame

@@ -6,6 +6,9 @@ const mongoose = require('mongoose')
 const getters = require('./get/index')
 const socketsMain = require('./sockets/index')
 
+const register = require('./api/register')
+const login = require('./api/login')
+
 var app = express()
 var server = http.createServer(app)
 var io = socketio(server)
@@ -16,6 +19,9 @@ mongoose.connect('mongodb://localhost/chess', { useNewUrlParser: true,  useUnifi
 
 getters(app)
 socketsMain(io)
+
+app.use('/api/register', register)
+app.use('/api/login', login)
 
 const PORT = process.env.PORT || 3000
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`))
