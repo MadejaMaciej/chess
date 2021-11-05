@@ -4,9 +4,9 @@ var bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
 const { User } = require('../models/users')
 const Joi = require('joi')
-const jwt = require('jsonwebtoken')
 const config = require('config')
-const bcrypt = require('bcrypt')
+const { logoutUser } = require('../utils/logout')
+const { checkToken, askNewToken} = require('../utils/tokens')
 const { checkIfBlocked } = require('../utils/block')
 
 router.post('/',jsonParser, async (req, res) => {
@@ -29,28 +29,24 @@ router.post('/',jsonParser, async (req, res) => {
         return res.status(401).send({error: "Blocked"})
     }
 
-    var pass = await bcrypt.compare(req.body.password, user.password)
-    if(pass){
-        const refreshToken = jwt.sign({ id: user._id }, config.get('PrivateKey'), {expiresIn: '60d' })
-        const token = jwt.sign({ id: user._id }, config.get('PrivateKey'), {expiresIn: '1h' })
-        const filter = {
-            _id: user._id
+    var check = checkToken(user.token, req.body.token)
+    if(!check){
+        check = await askNewToken(user.refreshToken, req.body.refreshToken, user)
+        if(!check){
+            const result = await logoutUser(user)
+            return res.status(401).send({error: "User is not authorized"})
         }
-        const update = {
-            token: token,
-            refreshToken: refreshToken
-        }
-        const result = await User.updateOne(filter, update)
-        return res.header('x-auth-token', token).send({response: "User Logged In", refreshToken: refreshToken, token: token})
-    }else{
-        return res.status(401).send({error: "Bad password"})
+        return res.send({response: "User is authorized", token: check})
     }
+
+    return res.send({response: "User is authorized"})
 })
 
 var validate = (req) => {
     const schema = Joi.object({
         username: Joi.string().min(1).max(50).required(),
-        password: Joi.string().required(),
+        token: Joi.string().required(),
+        refreshToken: Joi.string().required()
     })
     const validation = schema.validate(req)
     return validation

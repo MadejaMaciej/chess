@@ -8,6 +8,8 @@ const socketsMain = require('./sockets/index')
 
 const register = require('./api/register')
 const login = require('./api/login')
+const logout = require('./api/logout')
+const checkIfLoggedProperly = require('./api/checkIfValidTokens')
 
 var app = express()
 var server = http.createServer(app)
@@ -22,6 +24,8 @@ socketsMain(io)
 
 app.use('/api/register', register)
 app.use('/api/login', login)
+app.use('/api/logout', logout)
+app.use('/api/checkIfLoggedIn', checkIfLoggedProperly)
 
 const PORT = process.env.PORT || 3000
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`))
