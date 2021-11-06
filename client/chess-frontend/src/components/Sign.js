@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 
 var that
   
-  class Menu extends Component {
+  class Sign extends Component {
     constructor(props) {
       super(props)
       that = this
@@ -19,10 +19,6 @@ var that
 
     test(){
       console.log(that.state)
-    }
-
-    componentDidMount(){
-      this.props.checkIfValid(window.localStorage.getItem('username'), window.localStorage.getItem('token'), window.localStorage.getItem('refreshToken'))
     }
   
     render(){
@@ -34,5 +30,5 @@ var that
     }
   }
   
-  export default connect(mapStateToProps, mapDispatchToProps)(Menu)
+  export default connect(mapStateToProps, mapDispatchToProps)(Sign)
   

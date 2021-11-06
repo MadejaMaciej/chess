@@ -12,9 +12,7 @@ import {
   backendAddress
 } from '../functions/enviroment'
 
-import {
-  Menu
-} from './Menu'
+import Menu from './Menu'
 
 import {
   Footer

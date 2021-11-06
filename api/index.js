@@ -11,6 +11,7 @@ const login = require('./api/login')
 const logout = require('./api/logout')
 const checkIfLoggedProperly = require('./api/checkIfValidTokens')
 
+var cors = require("cors")
 var app = express()
 var server = http.createServer(app)
 var io = socketio(server)
@@ -21,6 +22,8 @@ mongoose.connect('mongodb://localhost/chess', { useNewUrlParser: true,  useUnifi
 
 getters(app)
 socketsMain(io)
+
+app.use(cors())
 
 app.use('/api/register', register)
 app.use('/api/login', login)

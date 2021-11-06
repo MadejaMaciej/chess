@@ -14,9 +14,10 @@ router.post('/',jsonParser, async (req, res) => {
         console.error('FATAL ERROR: PrivateKey is not defined.')
         process.exit(1)
     }
+
     const { error } = validate(req.body)
     if (error) {
-        return res.status(400).send(error.details[0].message)
+        return res.status(400).send({error: error.details[0].message})
     }
 
     var user = await User.findOne({username: req.body.username})
