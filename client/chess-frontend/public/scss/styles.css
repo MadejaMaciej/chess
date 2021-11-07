@@ -1,1 +1,9 @@
-/* No CSS *//*# sourceMappingURL=styles.css.map */
+*, html, body {
+  margin: 0px;
+  padding: 0px;
+}
+
+.img-sm {
+  width: 50px;
+}
+/*# sourceMappingURL=styles.css.map */
