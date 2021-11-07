@@ -7,11 +7,11 @@ import {
 export default function check(state = {  }, action){
     switch(action.type){
         case CHECK_ACCOUNT_REQUEST:
-            return "Requesting game creation"
+            return "Requesting account authorization"
         case CHECK_ACCOUNT_SUCCESS:
-            return (action.payload.data)
+            return (action.payload)
         case CHECK_ACCOUNT_ERROR:
-            return (action.payload.data)
+            return (action.payload)
         default:
             return state
     }
