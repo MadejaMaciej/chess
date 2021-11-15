@@ -1,5 +1,7 @@
 import { 
-    checkIfValid
+    checkIfValid,
+    login,
+    register
 } from '../actions/user-actions'
 
 export function mapStateToProps(state){
@@ -8,4 +10,4 @@ export function mapStateToProps(state){
     }
 }
 
-export const mapDispatchToProps = { checkIfValid }
+export const mapDispatchToProps = { checkIfValid, login, register }

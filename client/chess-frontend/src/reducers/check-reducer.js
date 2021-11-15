@@ -9,9 +9,9 @@ export default function check(state = {  }, action){
         case CHECK_ACCOUNT_REQUEST:
             return "Requesting account authorization"
         case CHECK_ACCOUNT_SUCCESS:
-            return (action.payload)
+            return (action.payload.data)
         case CHECK_ACCOUNT_ERROR:
-            return (action.payload)
+            return {status: "Not authorized"}
         default:
             return state
     }

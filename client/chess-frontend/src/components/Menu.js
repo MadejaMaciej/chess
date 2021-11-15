@@ -61,14 +61,16 @@ class Menu extends Component {
       that.props.history.push("/signIn")
   }
 
-  showValidMenu(){
-      console.log(that.props.user)
+  responseReceived(){
+      console.log(that.props, "Menu")
   }
   
   render(){
       return (
           <nav className="navbar navbar-expand-xl bg-dark">
-              {this.showValidMenu()}
+              <div>
+                {this.responseReceived()}
+              </div>
               <div className="container-fluid">
                   <a href="#" onClick={this.main}><img src="/img/king.png" alt="logo" className="img-fluid img-sm" /></a>
                   <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

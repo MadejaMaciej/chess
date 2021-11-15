@@ -40,7 +40,7 @@ var that
       if(loginInput && passwordInput && repeatPasswordInput){
         if(that.checkIfCheckboxChecked()){
           if(passwordInput.value == repeatPasswordInput.value){
-            console.log(loginInput.value, passwordInput.value)
+            that.props.register(loginInput.value, passwordInput.value)
           }else{
             that.passwordsNotIdentical()
           }
@@ -54,13 +54,20 @@ var that
       var loginInput = document.getElementById("lusername")
       var passwordInput = document.getElementById("lpassword")
       if(loginInput && passwordInput){
-        console.log(loginInput.value, passwordInput.value)
+        that.props.login(loginInput.value, passwordInput.value)
       }
+    }
+
+    responseReceived(){
+      console.log(that.props, "Sign")
     }
   
     render(){
       return(
         <div className="row">
+          <div>
+              {this.responseReceived()}
+          </div>
           <div className="left login col-6-sm">
             <label>
               Username
