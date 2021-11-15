@@ -17,12 +17,45 @@ var that
       that = this
     }
 
-    signUp(){
+    passwordsNotIdentical(){
+      console.log("Passwords not identical")
+    }
 
+    checkBoxNotChecked(){
+      console.log("Checkbox not checked")
+    }
+
+    checkIfCheckboxChecked(){
+      var checkbox = document.getElementById("checkbox")
+      if(checkbox){
+        return checkbox.checked 
+      }
+      return false
+    }
+
+    signUp(){
+      var loginInput = document.getElementById("rusername")
+      var passwordInput = document.getElementById("rpassword")
+      var repeatPasswordInput = document.getElementById("rpassword-repeat")
+      if(loginInput && passwordInput && repeatPasswordInput){
+        if(that.checkIfCheckboxChecked()){
+          if(passwordInput.value == repeatPasswordInput.value){
+            console.log(loginInput.value, passwordInput.value)
+          }else{
+            that.passwordsNotIdentical()
+          }
+        }else{
+          that.checkBoxNotChecked()
+        }
+      }
     }
 
     signIn(){
-
+      var loginInput = document.getElementById("lusername")
+      var passwordInput = document.getElementById("lpassword")
+      if(loginInput && passwordInput){
+        console.log(loginInput.value, passwordInput.value)
+      }
     }
   
     render(){
@@ -31,26 +64,26 @@ var that
           <div className="left login col-6-sm">
             <label>
               Username
-              <input id="username" className="own-input" placeholder="Username" type="text"/>
+              <input id="lusername" className="own-input" placeholder="Username" type="text"/>
             </label>
             <label>
               Password
-              <input id="password" className="own-input" type="password"/>
+              <input id="lpassword" className="own-input" type="password"/>
             </label>
             <button className="own-btn btn" onClick={this.signIn}>Sign In</button>
           </div>
           <div className="right register col-6-sm">
           <label>
               Username
-              <input id="username" className="own-input" placeholder="Username" type="text"/>
+              <input id="rusername" className="own-input" placeholder="Username" type="text"/>
             </label>
             <label>
               Password
-              <input id="password" className="own-input" type="password" />
+              <input id="rpassword" className="own-input" type="password" />
             </label>
             <label>
               Repeat Password
-              <input id="password-repeat" className="own-input" type="password" />
+              <input id="rpassword-repeat" className="own-input" type="password" />
             </label>
             <label>
               <input id="checkbox" type="checkbox" required/>

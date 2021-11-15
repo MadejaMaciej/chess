@@ -60,10 +60,15 @@ class Menu extends Component {
       e.preventDefault()
       that.props.history.push("/signIn")
   }
+
+  showValidMenu(){
+      console.log(that.props.user)
+  }
   
   render(){
       return (
           <nav className="navbar navbar-expand-xl bg-dark">
+              {this.showValidMenu()}
               <div className="container-fluid">
                   <a href="#" onClick={this.main}><img src="/img/king.png" alt="logo" className="img-fluid img-sm" /></a>
                   <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +94,7 @@ class Menu extends Component {
                             <a id="your-username" className="nav-link" href="#" onClick={this.profile}></a>
                           </li>
                           <li className="nav-item">
-                              <a className="nav-link" href="#" onClick={this.signIn}>Sing In</a>
+                              <a className="nav-link" href="#" onClick={this.signIn}>Sign In</a>
                           </li>
                       </ul>
                   </div>
