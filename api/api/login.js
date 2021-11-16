@@ -41,7 +41,7 @@ router.post('/',jsonParser, async (req, res) => {
             refreshToken: refreshToken
         }
         const result = await User.updateOne(filter, update)
-        return res.header('x-auth-token', token).send({response: "User Logged In", refreshToken: refreshToken, token: token})
+        return res.header('x-auth-token', token).send({response: "User Logged In", username: user.username, refreshToken: refreshToken, token: token})
     }else{
         return res.status(401).send({error: "Bad password"})
     }

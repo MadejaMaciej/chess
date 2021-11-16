@@ -2,9 +2,9 @@ import {
     LOGIN_ERROR,
     LOGIN_REQUEST,
     LOGIN_SUCCESS
-} from '../actions/user-actions'
+} from '../actions/login-actions'
 
-export default function login(state = {  }, action){
+export default function loginReducer(state = {  }, action){
     switch(action.type){
         case LOGIN_REQUEST:
             return "Requesting login"

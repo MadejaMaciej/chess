@@ -57,17 +57,10 @@ var that
         that.props.login(loginInput.value, passwordInput.value)
       }
     }
-
-    responseReceived(){
-      console.log(that.props, "Sign")
-    }
   
     render(){
       return(
         <div className="row">
-          <div>
-              {this.responseReceived()}
-          </div>
           <div className="left login col-6-sm">
             <label>
               Username

@@ -1,13 +1,21 @@
 import { 
-    checkIfValid,
-    login,
-    register
+    user
 } from '../actions/user-actions'
+
+import {
+    login
+} from '../actions/login-actions'
+
+import {
+    register
+} from '../actions/register-actions'
 
 export function mapStateToProps(state){
     return {
-        user: state.user
+        userState: state.user,
+        loging: state.login,
+        registering: state.register
     }
 }
 
-export const mapDispatchToProps = { checkIfValid, login, register }
+export const mapDispatchToProps = { user, login, register }

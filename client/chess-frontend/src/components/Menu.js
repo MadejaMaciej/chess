@@ -18,7 +18,7 @@ class Menu extends Component {
   }
 
   componentDidMount(){
-    this.props.checkIfValid(window.localStorage.getItem('username'), window.localStorage.getItem('token'), window.localStorage.getItem('refreshToken'))
+    this.props.user(window.localStorage.getItem('username'), window.localStorage.getItem('token'), window.localStorage.getItem('refreshToken'))
   }
 
   main(e){
@@ -61,15 +61,41 @@ class Menu extends Component {
       that.props.history.push("/signIn")
   }
 
-  responseReceived(){
-      console.log(that.props, "Menu")
+  loggedInUser(){
+    console.log("User is logged in")
+  }
+
+  loginResponse(){
+      if(that.props.loging.username && that.props.loging.token && that.props.loging.refreshToken){
+          window.localStorage.setItem("username", that.props.loging.username)
+          window.localStorage.setItem("token", that.props.loging.token)
+          window.localStorage.setItem("refreshToken", that.props.loging.refreshToken)
+          that.loggedInUser()
+      }
+  }
+
+  registerResponse(){
+    if(that.props.registering.username && that.props.registering.token && that.props.registering.refreshToken){
+        window.localStorage.setItem("username", that.props.loging.username)
+        window.localStorage.setItem("token", that.props.loging.token)
+        window.localStorage.setItem("refreshToken", that.props.loging.refreshToken)
+        that.loggedInUser()
+    }
+  }
+
+  checkResponse(){
+      if(that.props.userState.response == "User is authorized"){
+          that.loggedInUser()
+      }
   }
   
   render(){
       return (
           <nav className="navbar navbar-expand-xl bg-dark">
               <div>
-                {this.responseReceived()}
+                {this.loginResponse()}
+                {this.registerResponse()}
+                {this.checkResponse()}
               </div>
               <div className="container-fluid">
                   <a href="#" onClick={this.main}><img src="/img/king.png" alt="logo" className="img-fluid img-sm" /></a>
