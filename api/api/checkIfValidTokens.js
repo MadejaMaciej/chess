@@ -17,17 +17,17 @@ router.post('/',jsonParser, async (req, res) => {
 
     const { error } = validate(req.body)
     if (error) {
-        return res.status(400).send({error: error.details[0].message})
+        return res.send({error: "Bad data"})
     }
 
     var user = await User.findOne({username: req.body.username})
 
     if(!user){
-        return res.status(404).send({error: "User Not Found"})
+        return res.send({error: "User Not Found"})
     }
 
     if(checkIfBlocked(user)){
-        return res.status(401).send({error: "Blocked"})
+        return res.send({error: "Blocked"})
     }
 
     var check = checkToken(user.token, req.body.token)
@@ -35,7 +35,7 @@ router.post('/',jsonParser, async (req, res) => {
         check = await askNewToken(user.refreshToken, req.body.refreshToken, user)
         if(!check){
             const result = await logoutUser(user)
-            return res.status(401).send({error: "User is not authorized"})
+            return res.send({error: "User is not authorized"})
         }
         return res.send({response: "User is authorized", token: check})
     }

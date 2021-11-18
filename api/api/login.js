@@ -16,17 +16,17 @@ router.post('/',jsonParser, async (req, res) => {
     }
     const { error } = validate(req.body)
     if (error) {
-        return res.status(400).send(error.details[0].message)
+        return res.status(400).send({error: "Bad data"})
     }
 
     var user = await User.findOne({username: req.body.username})
 
     if(!user){
-        return res.status(404).send({error: "User Not Found"})
+        return res.send({error: "User Not Found"})
     }
 
     if(checkIfBlocked(user)){
-        return res.status(401).send({error: "Blocked"})
+        return res.send({error: "Blocked"})
     }
 
     var pass = await bcrypt.compare(req.body.password, user.password)
@@ -43,7 +43,7 @@ router.post('/',jsonParser, async (req, res) => {
         const result = await User.updateOne(filter, update)
         return res.header('x-auth-token', token).send({response: "User Logged In", username: user.username, refreshToken: refreshToken, token: token})
     }else{
-        return res.status(401).send({error: "Bad password"})
+        return res.send({error: "Bad password"})
     }
 })
 

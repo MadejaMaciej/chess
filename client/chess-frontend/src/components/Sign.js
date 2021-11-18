@@ -41,6 +41,7 @@ var that
         if(that.checkIfCheckboxChecked()){
           if(passwordInput.value == repeatPasswordInput.value){
             that.props.register(loginInput.value, passwordInput.value)
+            window.localStorage.setItem("tried", "register")
           }else{
             that.passwordsNotIdentical()
           }
@@ -55,6 +56,7 @@ var that
       var passwordInput = document.getElementById("lpassword")
       if(loginInput && passwordInput){
         that.props.login(loginInput.value, passwordInput.value)
+        window.localStorage.setItem("tried", "login")
       }
     }
   

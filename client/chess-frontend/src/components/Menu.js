@@ -9,12 +9,13 @@ import {
 
 import { connect } from 'react-redux'
 
-var that
+var that, logout
   
 class Menu extends Component {
   constructor(props) {
     super(props)
     that = this
+    logout = false
   }
 
   componentDidMount(){
@@ -58,43 +59,115 @@ class Menu extends Component {
 
   signIn(e){
       e.preventDefault()
-      that.props.history.push("/signIn")
+      if(e.target.innerText == "Sign Out"){
+        that.logoutUser()
+        that.props.user(window.localStorage.getItem('username'), window.localStorage.getItem('token'), window.localStorage.getItem('refreshToken'))
+        logout = true
+        that.props.history.push("/logout")
+      }else {
+        that.props.history.push("/signIn")
+      }
   }
 
   loggedInUser(){
-    console.log("User is logged in")
-  }
+    var hiddenElements = document.getElementsByClassName("show-log-in")
+    if(hiddenElements){
+        for(var i = 0; i < hiddenElements.length; i++){
+            hiddenElements[i].classList.remove("hidden")
+        }
+    }
+    var username = document.getElementById("your-username")
+    if(username){
+        username.innerText = window.localStorage.getItem("username")
+    }
 
-  loginResponse(){
-      if(that.props.loging.username && that.props.loging.token && that.props.loging.refreshToken){
-          window.localStorage.setItem("username", that.props.loging.username)
-          window.localStorage.setItem("token", that.props.loging.token)
-          window.localStorage.setItem("refreshToken", that.props.loging.refreshToken)
-          that.loggedInUser()
-      }
-  }
-
-  registerResponse(){
-    if(that.props.registering.username && that.props.registering.token && that.props.registering.refreshToken){
-        window.localStorage.setItem("username", that.props.loging.username)
-        window.localStorage.setItem("token", that.props.loging.token)
-        window.localStorage.setItem("refreshToken", that.props.loging.refreshToken)
-        that.loggedInUser()
+    var logoutButton = document.getElementById("login-logout")
+    if(logoutButton){
+        logoutButton.innerText = "Sign Out"
     }
   }
 
+  logoutUser(){
+    //Api call to logout
+    that.hideUserUI()
+  }
+
+  hideUserUI(){
+    var hiddenElements = document.getElementsByClassName("show-log-in")
+    if(hiddenElements){
+        for(var i = 0; i < hiddenElements.length; i++){
+            hiddenElements[i].classList.add("hidden")
+        }
+    }
+
+    var username = document.getElementById("your-username")
+    if(username){
+        username.innerText = ""
+    }
+
+    var logoutButton = document.getElementById("login-logout")
+    if(logoutButton){
+        logoutButton.innerText = "Sign In"
+    }
+
+   that.clearStorage()
+  }
+
+  clearStorage(){
+      window.localStorage.removeItem("username")
+      window.localStorage.removeItem("token")
+      window.localStorage.removeItem("refreshToken")
+  }
+
   checkResponse(){
-      if(that.props.userState.response == "User is authorized"){
-          that.loggedInUser()
-      }
+    if(!logout){
+        if(that.props.userState.response == "User is authorized"){
+            that.loggedInUser()
+            return 
+        }
+        if(that.props.loging.username && that.props.loging.token && that.props.loging.refreshToken){
+            window.localStorage.setItem("username", that.props.loging.username)
+            window.localStorage.setItem("token", that.props.loging.token)
+            window.localStorage.setItem("refreshToken", that.props.loging.refreshToken)
+            that.loggedInUser()
+            return
+        }
+        if(that.props.registering.username && that.props.registering.token && that.props.registering.refreshToken){
+            window.localStorage.setItem("username", that.props.loging.username)
+            window.localStorage.setItem("token", that.props.loging.token)
+            window.localStorage.setItem("refreshToken", that.props.loging.refreshToken)
+            that.loggedInUser()
+            return 
+        }
+    }
+
+    logout = false
+
+    if(window.localStorage.getItem("tried") == "login"){
+        if(that.props.loging.error){
+            that.hideUserUI()
+            console.log("Handle loging errors here", that.props.loging.error)
+        }
+        return
+    }else if(window.localStorage.getItem("tried") == "register"){
+        if(that.props.registering.error){
+            that.hideUserUI()
+            console.log("Handle registering errors here", that.props.registering.error)
+        }
+        return
+    }else{
+        if(that.props.userState.error){
+            that.hideUserUI()
+            console.log("Handle check errors here", that.props.userState.error)
+        }
+        return
+    }
   }
   
   render(){
       return (
           <nav className="navbar navbar-expand-xl bg-dark">
               <div>
-                {this.loginResponse()}
-                {this.registerResponse()}
                 {this.checkResponse()}
               </div>
               <div className="container-fluid">
@@ -111,18 +184,18 @@ class Menu extends Component {
                               <div className="dropdown-menu">
                                   <a className="dropdown-item" aria-current="page" href="#" onClick={this.matchmaking}>Matchmaking</a>
                                   <a className="dropdown-item" aria-current="page" href="#" onClick={this.playWithBot}>Play with Bot</a>
-                                  <a className="dropdown-item" aria-current="page" href="#" onClick={this.matches}>Your Matches</a>
-                                  <a className="dropdown-item" aria-current="page" href="#" onClick={this.watch}>Watch Gamess</a>
+                                  <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.matches}>Your Matches</a>
+                                  <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.watch}>Watch Gamess</a>
                               </div>
                           </li>
-                          <li className="nav-item">
+                          <li className="nav-item hidden show-log-in">
                               <a className="nav-link" href="#" onClick={this.statistics}>Statistics</a>
                           </li>
-                          <li className="nav-item">
+                          <li className="nav-item hidden show-log-in">
                             <a id="your-username" className="nav-link" href="#" onClick={this.profile}></a>
                           </li>
                           <li className="nav-item">
-                              <a className="nav-link" href="#" onClick={this.signIn}>Sign In</a>
+                              <a id="login-logout" className="nav-link" href="#" onClick={this.signIn}>Sign In</a>
                           </li>
                       </ul>
                   </div>

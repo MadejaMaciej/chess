@@ -17,13 +17,13 @@ router.post('/',jsonParser, async (req, res) => {
     }
     const { error } = validate(req.body)
     if (error) {
-        return res.status(400).send(error.details[0].message)
+        return res.status(400).send({error: "Bad data"})
     }
 
     var user = await User.findOne({username: req.body.username})
 
     if(user){
-        return res.status(409).send({error: "User Found"})
+        return res.send({error: "User Found"})
     }
 
     var pass = await bcrypt.hash(req.body.password, salt)
@@ -45,7 +45,7 @@ router.post('/',jsonParser, async (req, res) => {
         await user.save()
         return res.header('x-auth-token', token).send({response: "User Created", username: user.username, refreshToken: refreshToken, token: token})
     }catch(e){
-        return res.status(500).send({response: "Something went wrong", error: e})
+        return res.send({error: "Something went wrong", errorDesc: e})
     }
 })
 

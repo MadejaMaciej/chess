@@ -14,7 +14,7 @@ router.post('/',jsonParser, async (req, res) => {
     }
     const { error } = validate(req.body)
     if (error) {
-        return res.status(400).send(error.details[0].message)
+        return res.send({error: "Bad data"})
     }
 
     var user = await User.findOne({username: req.body.username})
@@ -24,11 +24,11 @@ router.post('/',jsonParser, async (req, res) => {
         if(result){
             return res.send({response: "User Logged Out"})
         }else{
-            return res.status(500).send({error: "Internal server error"})
+            return res.send({error: "Internal server error"})
         }
     }
     
-    return res.status(404).send({error: "User Not Found"})
+    return res.send({error: "User Not Found"})
 })
 
 var validate = (req) => {
