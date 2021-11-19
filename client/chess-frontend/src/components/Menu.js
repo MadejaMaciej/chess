@@ -9,13 +9,12 @@ import {
 
 import { connect } from 'react-redux'
 
-var that, logout
+var that
   
 class Menu extends Component {
   constructor(props) {
     super(props)
     that = this
-    logout = false
   }
 
   componentDidMount(){
@@ -61,8 +60,9 @@ class Menu extends Component {
       e.preventDefault()
       if(e.target.innerText == "Sign Out"){
         that.logoutUser()
+        that.props.loginDelete()
+        that.props.registerDelete()
         that.props.user(window.localStorage.getItem('username'), window.localStorage.getItem('token'), window.localStorage.getItem('refreshToken'))
-        logout = true
         that.props.history.push("/logout")
       }else {
         that.props.history.push("/signIn")
@@ -88,7 +88,6 @@ class Menu extends Component {
   }
 
   logoutUser(){
-    //Api call to logout
     that.hideUserUI()
   }
 
@@ -114,34 +113,28 @@ class Menu extends Component {
   }
 
   clearStorage(){
-      window.localStorage.removeItem("username")
-      window.localStorage.removeItem("token")
-      window.localStorage.removeItem("refreshToken")
+      window.localStorage.clear()
   }
 
   checkResponse(){
-    if(!logout){
-        if(that.props.userState.response == "User is authorized"){
-            that.loggedInUser()
-            return 
-        }
-        if(that.props.loging.username && that.props.loging.token && that.props.loging.refreshToken){
-            window.localStorage.setItem("username", that.props.loging.username)
-            window.localStorage.setItem("token", that.props.loging.token)
-            window.localStorage.setItem("refreshToken", that.props.loging.refreshToken)
-            that.loggedInUser()
-            return
-        }
-        if(that.props.registering.username && that.props.registering.token && that.props.registering.refreshToken){
-            window.localStorage.setItem("username", that.props.loging.username)
-            window.localStorage.setItem("token", that.props.loging.token)
-            window.localStorage.setItem("refreshToken", that.props.loging.refreshToken)
-            that.loggedInUser()
-            return 
-        }
+    if(that.props.userState.response == "User is authorized"){
+        that.loggedInUser()
+        return 
     }
-
-    logout = false
+    if(that.props.loging.username && that.props.loging.token && that.props.loging.refreshToken){
+        window.localStorage.setItem("username", that.props.loging.username)
+        window.localStorage.setItem("token", that.props.loging.token)
+        window.localStorage.setItem("refreshToken", that.props.loging.refreshToken)
+        that.loggedInUser()
+        return
+    }
+    if(that.props.registering.username && that.props.registering.token && that.props.registering.refreshToken){
+        window.localStorage.setItem("username", that.props.registering.username)
+        window.localStorage.setItem("token", that.props.registering.token)
+        window.localStorage.setItem("refreshToken", that.props.registering.refreshToken)
+        that.loggedInUser()
+        return 
+    }
 
     if(window.localStorage.getItem("tried") == "login"){
         if(that.props.loging.error){

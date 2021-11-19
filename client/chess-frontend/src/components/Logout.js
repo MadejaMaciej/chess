@@ -10,14 +10,12 @@ import React, {
       that = this
     }
 
-    async componentDidMount(){
-      that.clearStorage()
+    componentDidMount(){
+      this.clearStorage()
     }
 
     clearStorage(){
-        window.localStorage.removeItem("username")
-        window.localStorage.removeItem("token")
-        window.localStorage.removeItem("refreshToken")
+      window.localStorage.clear()
     }
   
     render(){

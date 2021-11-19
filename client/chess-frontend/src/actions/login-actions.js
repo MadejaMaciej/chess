@@ -6,7 +6,8 @@ import {
 
 export const LOGIN_REQUEST = 'login_request'
 export const LOGIN_SUCCESS = 'login_success'
-export const LOGIN_ERROR = 'login_error' 
+export const LOGIN_ERROR = 'login_error'
+export const LOGIN_DELETE = 'login_delete' 
 
 export function login(username, password){
     if(loginAddress == undefined){
@@ -47,6 +48,18 @@ export function login(username, password){
         return {
             type: LOGIN_ERROR,
             payload: {error: e}
+        }
+    }
+}
+
+export function loginDelete(){
+    return async function(dispatch){
+        dispatch(loginDel())
+    }
+
+    function loginDel(){
+        return {
+            type: LOGIN_DELETE
         }
     }
 }

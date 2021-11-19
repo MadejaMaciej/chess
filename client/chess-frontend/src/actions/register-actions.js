@@ -7,6 +7,7 @@ import {
 export const REGISTER_REQUEST = 'register_request'
 export const REGISTER_SUCCESS = 'register_success'
 export const REGISTER_ERROR = 'register_error' 
+export const REGISTER_DELETE = 'register_delete' 
 
 export function register(username, password){
     if(registerAddress == undefined){
@@ -47,6 +48,18 @@ export function register(username, password){
         return {
             type: REGISTER_ERROR,
             payload: {error: e}
+        }
+    }
+}
+
+export function registerDelete(){
+    return async function(dispatch){
+        dispatch(registerDel())
+    }
+
+    function registerDel(){
+        return {
+            type: REGISTER_DELETE
         }
     }
 }

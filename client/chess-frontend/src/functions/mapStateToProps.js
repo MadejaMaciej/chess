@@ -3,11 +3,13 @@ import {
 } from '../actions/user-actions'
 
 import {
-    login
+    login,
+    loginDelete
 } from '../actions/login-actions'
 
 import {
-    register
+    register,
+    registerDelete
 } from '../actions/register-actions'
 
 export function mapStateToProps(state){
@@ -18,4 +20,4 @@ export function mapStateToProps(state){
     }
 }
 
-export const mapDispatchToProps = { user, login, register }
+export const mapDispatchToProps = { user, login, loginDelete, register, registerDelete }
