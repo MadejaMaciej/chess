@@ -25,6 +25,7 @@ import {
 import Sign from './Sign'
 
 import { Logout } from './Logout'
+import { Matchmaking } from './Matchmaking';
 
 const backendAdd = backendAddress || "http://localhost:3000/"
 var socket, that
@@ -46,6 +47,7 @@ class App extends Component {
         <div className="background">
           <Switch>
             <Route exact path="/" component={Main} />
+            <Route exact path="/matchmaking" component={Matchmaking} />
             <Route exact path="/signIn" component={Sign} />
             <Route exact path="/logout" component={Logout} />
           </Switch>

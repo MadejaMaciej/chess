@@ -63,7 +63,7 @@ var that
     render(){
       return(
         <div className="row">
-          <div className="left login col-6-sm">
+          <div id="login" className="left login col-6-sm">
             <label>
               Username
               <input id="lusername" className="own-input" placeholder="Username" type="text"/>
@@ -74,7 +74,7 @@ var that
             </label>
             <button className="own-btn btn" onClick={this.signIn}>Sign In</button>
           </div>
-          <div className="right register col-6-sm">
+          <div id="register" className="right register col-6-sm">
           <label>
               Username
               <input id="rusername" className="own-input" placeholder="Username" type="text"/>

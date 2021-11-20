@@ -80,10 +80,20 @@ class Menu extends Component {
     if(username){
         username.innerText = window.localStorage.getItem("username")
     }
-
+    
     var logoutButton = document.getElementById("login-logout")
     if(logoutButton){
         logoutButton.innerText = "Sign Out"
+    }
+
+    var login = document.getElementById("login")
+    var register = document.getElementById("register")
+    if(login){
+        login.classList.add("hidden")
+    }
+
+    if(register){
+        register.classList.add("hidden")
     }
   }
 
