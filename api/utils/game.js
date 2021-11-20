@@ -41,7 +41,9 @@ class chessLogic {
     FENS = []
     logs
     plusTime
-    constructor(UUID, whiteName, blackName, times, whiteRating, blackRating, whiteTitle, blackTitle, PGN, fen, logs, plusTime){
+    constructor(UUID, whiteName, blackName, times, whiteRating, blackRating, whiteTitle, blackTitle, fen, plusTime){
+        let [month, date, year]    = new Date().toLocaleDateString("en-US").split("/")
+        let [hour, minute, second] = new Date().toLocaleTimeString("en-US").split(/:| /)
         this.UUID = UUID
         this.whiteName = whiteName
         this.blackName = blackName
@@ -49,6 +51,12 @@ class chessLogic {
         this.blackTime = times
         this.whiteRating = whiteRating
         this.blackRating = blackRating
+        this.whiteTitle = whiteTitle
+        this.blackTitle = blackTitle
+        this.PGN = ""
+        this.FENS.push(fen)
+        this.logs = `${date}-${month}-${year} ${hour}:${minute}:${second}: Player ${whiteName} with rating ${whiteRating} is facing ${blackName} with rating ${blackRating} as white.`
+        this.plusTime = plusTime
     }
 }
 
