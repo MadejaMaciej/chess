@@ -1,3 +1,5 @@
+const { matchmake } = require("../utils/game")
+
 var socketsMain = (io) =>{
     var playerCounter = 0
     var gamesCounter = 0
@@ -8,6 +10,11 @@ var socketsMain = (io) =>{
 
         socket.on('enteredMain', () => {
             socket.emit('displayPlayersOnline', (playerCounter, gamesCounter))
+        })
+
+        socket.on('startMatchmaking', props => {
+            matchmake(props.minutes, props.seconds, "Anonymous", 1500)
+            console.log(props)
         })
         
         socket.on('gameStarted', () => {
