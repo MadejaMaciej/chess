@@ -9,7 +9,11 @@ var matchmakingInterval = (time) => {
 }
 
 var matchmake = (minutes, seconds, username, rating) => {
-    console.log(matchmakeSwitcher(minutes, seconds))
+    if(matchmakeSwitcher(minutes, seconds) == '5+0'){
+        
+    }else{
+
+    }
     console.log(minutes, seconds, username, rating)
 }
 
