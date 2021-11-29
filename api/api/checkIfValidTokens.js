@@ -34,7 +34,6 @@ router.post('/',jsonParser, async (req, res) => {
     if(!check){
         check = await askNewToken(user.refreshToken, req.body.refreshToken, user)
         if(!check){
-            const result = await logoutUser(user)
             return res.send({error: "User is not authorized"})
         }
         return res.send({response: "User is authorized", token: check})

@@ -127,6 +127,9 @@ class Menu extends Component {
   }
 
   checkResponse(){
+    if(that.props.userState.response == "User is not authorized"){
+        that.logoutUser()
+    }
     if(that.props.userState.response == "User is authorized"){
         that.loggedInUser()
         return 
