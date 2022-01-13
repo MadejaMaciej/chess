@@ -5,14 +5,67 @@ var fiveMinutesMatchmakingAnonymous = []
 var fiveMinutesPlusThreeSecondsMatchmakingAnonymous = []
 
 var matchmakingInterval = (time) => {
-    setInterval(()=>{
-        console.log(fiveMinutesMatchmaking, fiveMinutesMatchmakingAnonymous, fiveMinutesPlusThreeSecondsMatchmaking, fiveMinutesPlusThreeSecondsMatchmakingAnonymous)
+    setInterval(async ()=>{
+        var usersFive = getUsersTogether(fiveMinutesMatchmaking)
+        var usersFivePlusThree = getUsersTogether(fiveMinutesPlusThreeSecondsMatchmaking)
+        fiveMinutesMatchmaking = []
+        fiveMinutesPlusThreeSecondsMatchmaking = []
+
+        var leftFive = await createGames(usersFive, true)
+        if(leftFive.length > 0){
+            fiveMinutesMatchmaking = fiveMinutesMatchmaking.concat(leftFive)
+        }
+
+        var leftFivePlusThree = await createGames(usersFivePlusThree, true)
+        if(leftFivePlusThree.length > 0){
+            fiveMinutesPlusThreeSecondsMatchmaking = fiveMinutesPlusThreeSecondsMatchmaking.concat(leftFivePlusThree)
+        }
+
+        var leftFiveAnonym = await createGames(fiveMinutesMatchmakingAnonymous, false)
+        fiveMinutesMatchmakingAnonymous = leftFiveAnonym
+
+        var leftFivePlusThreeAnonym = await createGames(fiveMinutesPlusThreeSecondsMatchmakingAnonymous, false)
+        fiveMinutesPlusThreeSecondsMatchmakingAnonymous = leftFivePlusThreeAnonym
     }, time)
+}
+
+var createGames = async (arr, registered) => {
+    var arrReturned = []
+    var i = 0
+
+    if(arr.length < 2){
+        return arr
+    }
+
+    while(i < arr.length){
+        if(arr[i+1]){
+            if(arr[i].rating+100 >= arr[i+1].rating){
+                var player = getRandomInt(0, 2)
+                if(player == 0){
+                    await hostGame(arr[i], arr[i+1], registered)
+                }else{
+                    await hostGame(arr[i+1], arr[i], registered)
+                }
+                i += 2
+            }else {
+                arrReturned.push(arr[i])
+                i++
+            }
+        }else{
+            arrReturned.push(arr[i])
+            i++ 
+        }
+    }
+    return arrReturned
+} 
+
+var getUsersTogether = (arr) => {
+    return arr
 }
 
 var matchmake = (minutes, seconds, username, rating, id, anonym) => {
     var time = matchmakeSwitcher(minutes, seconds)
-    addToArray(time, username, rating, id, anonym)
+    return addToArray(time, username, rating, id, anonym)
 }
 
 var matchmakeSwitcher = (minutes, seconds) => {
@@ -97,55 +150,32 @@ var addToArray = (time, username, rating, id, anonym) => {
             }else{
                 fiveMinutesMatchmaking.push({username, rating, id})
             }
-            return
+            return true
             case '5+3':
             if(anonym){
                 fiveMinutesPlusThreeSecondsMatchmakingAnonymous.push({username, rating, id})
             }else{
                 fiveMinutesPlusThreeSecondsMatchmaking.push({username, rating, id})
             }
-            return
+            return true
         default:
             if(anonym){
                 fiveMinutesMatchmakingAnonymous.push({username, rating, id})
             }else{
                 fiveMinutesMatchmaking.push({username, rating, id})
             }
-            return
+            return true
     }
 }
 
-class chessLogic {
-    UUID
-    whiteName
-    blackName
-    whiteTime
-    blackTime
-    whiteRating
-    blackRating
-    whiteTitle
-    blackTitle
-    PGN
-    FENS = []
-    logs
-    plusTime
-    constructor(UUID, whiteName, blackName, times, whiteRating, blackRating, whiteTitle, blackTitle, fen, plusTime){
-        let [month, date, year]    = new Date().toLocaleDateString("en-US").split("/")
-        let [hour, minute, second] = new Date().toLocaleTimeString("en-US").split(/:| /)
-        this.UUID = UUID
-        this.whiteName = whiteName
-        this.blackName = blackName
-        this.whiteTime = times
-        this.blackTime = times
-        this.whiteRating = whiteRating
-        this.blackRating = blackRating
-        this.whiteTitle = whiteTitle
-        this.blackTitle = blackTitle
-        this.PGN = ""
-        this.FENS.push(fen)
-        this.logs = `${date}-${month}-${year} ${hour}:${minute}:${second}: Player ${whiteName} with rating ${whiteRating} is facing ${blackName} with rating ${blackRating} as white.`
-        this.plusTime = plusTime
-    }
+var hostGame = async (p1, p2, registered) => {
+    console.log(p1, p2, registered)
+}
+
+var getRandomInt = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
 }
 
 matchmakingInterval(5000)

@@ -40,14 +40,14 @@ var socketsMain = (io) =>{
                     return socket.emit('NotAuthorized')
                 }
                 
-                var added = matchmake(props.minutes, props.seconds, user.username, user.ratings[0].rating, socket.id, true)
+                var added = matchmake(props.minutes, props.seconds, user.username, user.ratings[0].rating, socket.id, false)
                 if(added){
                     return socket.emit('PlayerAddedToQueue', ({token: check}))
                 }
                 return socket.emit('SomethingWentWrong')
             }
             
-            var added = matchmake(props.minutes, props.seconds, user.username, user.ratings[0], socket.id, true)
+            var added = matchmake(props.minutes, props.seconds, user.username, user.ratings[0].rating, socket.id, false)
             if(added){
                 return socket.emit('PlayerAddedToQueue')
             }
