@@ -7,12 +7,8 @@ const Game = mongoose.model('Game', new mongoose.Schema({
         required: true,
         unique: true
     },
-    gameType: {
-        type: String,
-        required: true
-    },
     pgn: {
-        type: String,
+        type: Array,
         required: true
     },
     fens: {
@@ -36,8 +32,7 @@ const Game = mongoose.model('Game', new mongoose.Schema({
 function validateGame(game) {
     const schema = Joi.object({
            UUID: Joi.string().required(),
-           gameType: Joi.string().required(),
-           pgn: Joi.string().required(),
+           pgn: Joi.array().required(),
            fens: Joi.array().required(),
            players: Joi.object().required(),
            gameSettings: Joi.object().required(),
