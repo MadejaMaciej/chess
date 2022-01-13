@@ -8,7 +8,6 @@ const socketsMain = require('./sockets/index')
 
 const register = require('./api/register')
 const login = require('./api/login')
-// const logout = require('./api/logout')
 const checkIfLoggedProperly = require('./api/checkIfValidTokens')
 
 var cors = require("cors")
@@ -27,7 +26,6 @@ app.use(cors())
 
 app.use('/api/register', register)
 app.use('/api/login', login)
-// app.use('/api/logout', logout)
 app.use('/api/checkIfLoggedIn', checkIfLoggedProperly)
 
 const PORT = process.env.PORT || 3000

@@ -34,7 +34,7 @@ router.post('/',jsonParser, async (req, res) => {
         user = new User(_.pick({
             username: req.body.username,
             password: pass, 
-            ratings: [], 
+            ratings: [{type: 'blitz', rating: 1500}], 
             gamesIds: [], 
             admin: false, 
             blocked: false, 
