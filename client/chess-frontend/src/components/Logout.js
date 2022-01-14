@@ -20,8 +20,10 @@ import React, {
   
     render(){
       return(
-        <div>
-          You have been logged out
+        <div className='black-bg main'>
+          <div>
+            <h2 className='text-center white-font p-5'>You have been succesfully logged out.</h2>
+          </div>
         </div>
       )
     }

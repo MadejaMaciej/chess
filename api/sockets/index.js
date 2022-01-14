@@ -3,20 +3,20 @@ const { User } = require("../models/users")
 const { Game } = require("../models/games")
 const { checkIfBlocked } = require("../utils/block")
 const { checkToken, askNewToken } = require("../utils/tokens")
+var playerCounter = 0
+var gamesCounter = 0
 
 var socketsMain = (io) =>{
-    var playerCounter = 0
-    var gamesCounter = 0
     io.on('connection', (socket) => {
         joinRoom(socket, 'main')
         playerCounter++
-        io.in('main').emit('displayPlayersOnline', (playerCounter, gamesCounter))
+        io.in('main').emit('displayPlayersOnline', ({playerCounter, gamesCounter}))
 
         socket.on('join', (room) => {
             joinRoom(socket, room)
         })
         socket.on('enteredMain', () => {
-            socket.emit('displayPlayersOnline', (playerCounter, gamesCounter))
+            socket.emit('displayPlayersOnline', ({playerCounter, gamesCounter}))
         })
 
         socket.on('startMatchmaking', async (props) => {
@@ -60,12 +60,12 @@ var socketsMain = (io) =>{
         
         socket.on('gameStarted', () => {
             gamesCounter++
-            io.in('main').emit('displayPlayersOnline', (playerCounter, gamesCounter))
+            io.in('main').emit('displayPlayersOnline', ({playerCounter, gamesCounter}))
         })
 
         socket.on('gameEnded', () => {
             gamesCounter--
-            io.in('main').emit('displayPlayersOnline', (playerCounter, gamesCounter))
+            io.in('main').emit('displayPlayersOnline', ({playerCounter, gamesCounter}))
         })
 
         socket.on('getMyMatches', async (props) => {
@@ -165,7 +165,7 @@ var socketsMain = (io) =>{
 
         socket.on('disconnect', ()=>{
             playerCounter--
-            io.in('main').emit('displayPlayersOnline', (playerCounter, gamesCounter))
+            io.in('main').emit('displayPlayersOnline', ({playerCounter, gamesCounter}))
             removeById(socket.id)
         })
     })

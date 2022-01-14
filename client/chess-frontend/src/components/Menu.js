@@ -172,36 +172,42 @@ class Menu extends Component {
   
   render(){
       return (
-          <nav className="navbar navbar-expand-xl bg-dark">
+          <nav className="navbar navbar-expand-xl bg-brown">
               <div>
                 {this.checkResponse()}
               </div>
-              <div className="container-fluid">
+              <div className="container-fluid d-flex justify-sb">
                   <a href="#" onClick={this.main}><img src="/img/king.png" alt="logo" className="img-fluid img-sm" /></a>
-                  <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                       <span className="navbar-toggler-icon"></span>
-                  </button>
+                  </button> */}
                   <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul className="navbar-nav ms-auto mb-2 mb-xl-0">
+                      <ul className="navbar-nav ms-auto mb-2 mb-xl-0 d-flex">
                           
-                          <li className="nav-item dropdown">
+                          {/* <li className="nav-item dropdown">
                               <a className="dropdown-toggle nav-link hidden show-log-in" aria-expanded="false" data-bs-toggle="dropdown"
                                  href="#">Games</a>
                               <div className="dropdown-menu">
                                   <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.matchmaking}>Matchmaking</a>
-                                  {/* <a className="dropdown-item" aria-current="page" href="#" onClick={this.playWithBot}>Play with Bot</a> */}
+                                  <a className="dropdown-item" aria-current="page" href="#" onClick={this.playWithBot}>Play with Bot</a> 
                                   <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.matches}>Your Matches</a>
-                                  {/* <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.watch}>Watch Games</a> */}
+                                  <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.watch}>Watch Games</a>
                               </div>
+                          </li> */}
+                          <li className="nav-item hidden show-log-in">
+                          <a className="nav-link hidden show-log-in white-font" aria-current="page" href="#" onClick={this.matchmaking}>Matchmaking</a>
                           </li>
                           <li className="nav-item hidden show-log-in">
+                          <a className="nav-link hidden show-log-in white-font" aria-current="page" href="#" onClick={this.matches}>Your Matches</a>
+                          </li>
+                          {/* <li className="nav-item hidden show-log-in">
                               <a className="nav-link" href="#" onClick={this.statistics}>Statistics</a>
                           </li>
                           <li className="nav-item hidden show-log-in">
                             <a id="your-username" className="nav-link" href="#" onClick={this.profile}></a>
-                          </li>
+                          </li> */}
                           <li className="nav-item">
-                              <a id="login-logout" className="nav-link" href="#" onClick={this.signIn}>Sign In</a>
+                              <a id="login-logout" className="nav-link white-font" href="#" onClick={this.signIn}>Sign In</a>
                           </li>
                       </ul>
                   </div>
