@@ -1,8 +1,8 @@
 const { Game } = require('../models/games') 
+const { User } = require('../models/users')
+const { Chess } = require('chess.js')
 const _ = require('lodash')
 
-
-var gamesOngoing = []
 var fiveMinutesMatchmaking = []
 var fiveMinutesPlusThreeSecondsMatchmaking = []
 var fiveMinutesMatchmakingAnonymous = []
@@ -250,6 +250,166 @@ var hostGame = async (p1, p2, type, time, timeMs ) => {
     io.to(p2.id).emit('gameCreated', ({UUID: game.UUID}))
 }
 
+var move = async (moveObject, promoted, promotePiece, game, moved) => {
+    var chess = new Chess(game.fens[game.fens.length - 1])
+    if(promoted){
+        mv = chess.move({from: moveObject.sourceSquare, to: moveObject.targetSquare, promotion: promotePiece})
+    }else{
+        mv = chess.move({from: moveObject.sourceSquare, to: moveObject.targetSquare})
+    }
+    if(mv != null){
+        var winner = ""
+        var finished = false
+        var state = 0
+        var fens = game.fens
+        fens.push(chess.fen())
+        var pgn = game.pgn
+        pgn.push(moveObject.sourceSquare+'-'+moveObject.targetSquare)
+        var logs = game.logs
+        var date = new Date()
+        var day = date.getDate()
+        if(day < 10){
+            day = '0'+day
+        }
+        var sendingDate = day + "-" +date.getMonth()+1 + "-" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes()
+        logs.push(`${sendingDate}: Player ${moved} has made a ${moveObject.sourceSquare+'-'+moveObject.targetSquare} move.`)
+        var repetitions = 0
+        for(let i = 0; i < fens.length - 1; i++){
+            if(fens[i] == fens[fens.length - 1]){
+                repetitions++
+            }
+        }
+
+        if(repetitions >= 3){
+            logs.push(`${sendingDate}: Game has been drawn by threefold repetition.`)
+            finished = true
+            state = 1
+        }
+        if(chess.game_over()){
+            if(chess.in_draw()){
+                logs.push(`${sendingDate}: Game has been drawn by insufficient material or 50 move rule.`)
+                finished = true
+                state = 1
+            }
+
+            if(chess.in_stalemate()){
+                logs.push(`${sendingDate}: Game has been drawn. Stalemate.`)
+                finished = true
+                state = 1
+            }
+
+            if(chess.in_checkmate()){
+                logs.push(`${sendingDate}: Game has been ended. ${moved} wins.`)
+                winner = moved
+                finished = true
+                state = 2
+            }
+        }
+
+        if(state == 1){
+            var user = await User.findOne({username: game.username1})
+            var user2 = await User.findOne({username: game.username2})
+            let rank = user.ratings
+            let rank2 = user2.ratings
+            var startRating = rank.rating/400
+            var pr = Math.pow(10, startRating)
+            var startRating2 = rank2.rating/400
+            var pr2 = Math.pow(10, startRating2)
+            var k = 32
+            var e1 = pr/(pr+pr2)
+            var e2 = pr2/(pr+pr2)
+            var s1 = 0.5
+            var s2 = 0.5
+            rank.rating = Math.round(rank.rating + k * (s1 - e1))
+            rank2.rating = Math.round(rank2.rating + k * (s2 - e2))
+    
+           var filterUser = {
+                _id: user._id
+            }
+    
+            var updateUser = {
+                ratings: rank
+            }
+    
+            await User.updateOne(filterUser, updateUser)
+    
+            filterUser = {
+                _id: user2._id
+            }
+    
+            updateUser = {
+                ratings: rank2
+            }
+    
+            await User.updateOne(filterUser, updateUser)
+        }else if(state == 2){
+            var user, user2
+            if(moved == game.username1){
+                user = await User.findOne({username: game.username1})
+                user2 = await User.findOne({username: game.username2})
+            }else{
+                user = await User.findOne({username: game.username2})
+                user2 = await User.findOne({username: game.username1})
+            }
+            let rank = user.ratings[0]
+            let rank2 = user2.ratings[0]
+            var startRating = rank.rating/400
+            var pr = Math.pow(10, startRating)
+            var startRating2 = rank2.rating/400
+            var pr2 = Math.pow(10, startRating2)
+            var k = 32
+            var e1 = pr/(pr+pr2)
+            var e2 = pr2/(pr+pr2)
+            var s1 = 1
+            var s2 = 0
+            rank.rating = Math.round(rank.rating + k * (s1 - e1))
+            rank2.rating = Math.round(rank2.rating + k * (s2 - e2))
+    
+            var filterUsers = {
+                _id: user._id
+            }
+    
+            var updateUsers = {
+                ratings: rank
+            }
+    
+            await User.updateOne(filterUsers, updateUsers)
+    
+            filterUsers = {
+                _id: user2._id
+            }
+    
+            updateUsers = {
+                ratings: rank2
+            }
+    
+            await User.updateOne(filterUsers, updateUsers)
+        }
+        const filter = {
+            _id: game._id
+        }
+        const update = {
+            finished: finished,
+            fens: fens,
+            pgn: pgn,
+            logs: logs,
+            winner: winner
+        }
+        await Game.updateOne(filter, update)
+        const gm = await Game.findOne({UUID: game.UUID})
+        if(state == 1){
+            return {game: gm, state: 'tie'}
+        }else if(state == 2){
+            return {game: gm, state: 'finish'}
+        }else{
+            return {game: gm}
+        }
+    }
+    
+
+    return false
+}
+
 var makeId = (length) => {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -268,4 +428,4 @@ var getRandomInt = (min, max) => {
 
 matchmakingInterval(5000)
 
-module.exports = { matchmake, removeById, gameUtils }
+module.exports = { matchmake, removeById, gameUtils, move }

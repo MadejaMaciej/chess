@@ -1,4 +1,4 @@
-const { matchmake, removeById } = require("../utils/game")
+const { matchmake, removeById, move } = require("../utils/game")
 const { User } = require("../models/users")
 const { Game } = require("../models/games")
 const { checkIfBlocked } = require("../utils/block")
@@ -12,6 +12,9 @@ var socketsMain = (io) =>{
         playerCounter++
         io.in('main').emit('displayPlayersOnline', (playerCounter, gamesCounter))
 
+        socket.on('join', (room) => {
+            joinRoom(socket, room)
+        })
         socket.on('enteredMain', () => {
             socket.emit('displayPlayersOnline', (playerCounter, gamesCounter))
         })
@@ -111,6 +114,53 @@ var socketsMain = (io) =>{
             }else {
                 socket.emit('matches', games2Filtered)
             }
+        })
+
+        socket.on('getGameInfo', async (id)=>{
+            var game = await Game.findOne({UUID: id})
+            if(game){
+                return socket.emit('gameState', ({game: game}))
+            }
+
+            return socket.emit('gameNotFound')
+        })
+
+        socket.on('moved', async (props) => {
+            var user = await User.findOne({username: props.username})
+            if(!user){
+                return socket.emit('UserNotFound')
+            }
+
+            if(checkIfBlocked(user)){
+                return socket.emit('Blocked')
+            }
+
+            var check = checkToken(user.token, props.token)
+            if(!check){
+                check = await askNewToken(user.refreshToken, props.refreshToken, user)
+                if(!check){
+                    return socket.emit('NotAuthorized')
+                }
+            }
+
+            var game = await Game.findOne({UUID: props.UUID})
+            if(game.username1 == props.username || game.username2 == props.username){
+                if(game.finished){
+                    return io.in(props.UUID).emit('move', {game: game})
+                }
+                var moved = await move(props.moveObject, props.promotion, props.promoteTo, game, props.username)
+                if(moved){
+                    io.in(props.UUID).emit('move', {game: moved.game})
+                    if(moved.state == 'tie'){
+                        io.in(props.UUID).emit('tie')
+                    }else if(moved.state == 'finish'){
+                        socket.emit('win')
+                        socket.to(props.UUID).emit('lost')
+                    }
+                    return 
+                }
+            }
+            return io.in(props.UUID).emit('move', {game: game})
         })
 
         socket.on('disconnect', ()=>{

@@ -10,4 +10,28 @@
 .hidden {
   display: none;
 }
+
+.chess-piece {
+  height: 100%;
+}
+
+.inCheck {
+  background: radial-gradient(ellipse at center, red 0%, #e70000 25%, rgba(169, 0, 0, 0) 89%, rgba(158, 0, 0, 0) 100%);
+}
+
+.lastMove > div {
+  background-color: rgba(155, 199, 0, 0.41) !important;
+}
+
+.possible-move > div {
+  background: radial-gradient(rgba(20, 85, 30, 0.5) 19%, rgba(0, 0, 0, 0) 20%);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.take > div {
+  background: radial-gradient(transparent 0%, transparent 79%, rgba(20, 85, 30, 0.5) 80%);
+  pointer-events: auto;
+  cursor: pointer;
+}
 /*# sourceMappingURL=styles.css.map */

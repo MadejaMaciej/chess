@@ -185,10 +185,10 @@ class Menu extends Component {
                       <ul className="navbar-nav ms-auto mb-2 mb-xl-0">
                           
                           <li className="nav-item dropdown">
-                              <a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown"
+                              <a className="dropdown-toggle nav-link hidden show-log-in" aria-expanded="false" data-bs-toggle="dropdown"
                                  href="#">Games</a>
                               <div className="dropdown-menu">
-                                  <a className="dropdown-item" aria-current="page" href="#" onClick={this.matchmaking}>Matchmaking</a>
+                                  <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.matchmaking}>Matchmaking</a>
                                   {/* <a className="dropdown-item" aria-current="page" href="#" onClick={this.playWithBot}>Play with Bot</a> */}
                                   <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.matches}>Your Matches</a>
                                   {/* <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.watch}>Watch Games</a> */}

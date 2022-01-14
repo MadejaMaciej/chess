@@ -28,6 +28,8 @@ import { Logout } from './Logout'
 import { Matchmaking } from './Matchmaking'
 import { Game } from './Game'
 import { OngoingMatches } from './OngoingMatches'
+import { UserProfile } from './UserProfile'
+import { Stats } from './Stats'
 
 const backendAdd = backendAddress || "http://localhost:3000/"
 var socket, that
@@ -53,6 +55,8 @@ class App extends Component {
             <Route exact path="/signIn" component={Sign} />
             <Route exact path="/logout" component={Logout} />
             <Route exact path="/yourMatches" component={OngoingMatches} />
+            <Route exact path="/stats" component={Stats} />
+            <Route path="/profile/:username" component={UserProfile} />
             <Route path="/:id" component={Game} />
           </Switch>
         </div>
