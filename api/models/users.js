@@ -17,10 +17,6 @@ const User = mongoose.model('User', new mongoose.Schema({
         type: Array,
         required: true
     }, 
-    gamesIds: {
-        type: Array,
-        required: true
-    },
     admin: {
         type: Boolean,
         requierd: true
@@ -48,7 +44,6 @@ function validateUser(user) {
         username: Joi.string().min(1).max(50).required(),
         password: Joi.string().required(),
         ratings: Joi.array().required(),
-        gamesIds: Joi.array().required(),
         admin: Joi.boolean().required(),
         blocked: Joi.boolean().required(),
         token: Joi.string().required(),

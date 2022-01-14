@@ -25,7 +25,9 @@ import {
 import Sign from './Sign'
 
 import { Logout } from './Logout'
-import { Matchmaking } from './Matchmaking';
+import { Matchmaking } from './Matchmaking'
+import { Game } from './Game'
+import { OngoingMatches } from './OngoingMatches'
 
 const backendAdd = backendAddress || "http://localhost:3000/"
 var socket, that
@@ -50,6 +52,8 @@ class App extends Component {
             <Route exact path="/matchmaking" component={Matchmaking} />
             <Route exact path="/signIn" component={Sign} />
             <Route exact path="/logout" component={Logout} />
+            <Route exact path="/yourMatches" component={OngoingMatches} />
+            <Route path="/:id" component={Game} />
           </Switch>
         </div>
         <Route component={Footer} />

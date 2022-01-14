@@ -34,14 +34,13 @@ router.post('/',jsonParser, async (req, res) => {
         user = new User(_.pick({
             username: req.body.username,
             password: pass, 
-            ratings: [{type: 'blitz', rating: 1500}], 
-            gamesIds: [], 
+            ratings: [{type: 'blitz', rating: 1500}],
             admin: false, 
             blocked: false, 
             token: token, 
             refreshToken: refreshToken,
             temporaryToken: tempToken
-        }, ['username', 'password', 'ratings', 'gamesIds', 'admin', 'blocked', 'token', 'refreshToken', 'temporaryToken']))
+        }, ['username', 'password', 'ratings', 'admin', 'blocked', 'token', 'refreshToken', 'temporaryToken']))
         await user.save()
         return res.header('x-auth-token', token).send({response: "User Created", username: user.username, refreshToken: refreshToken, token: token})
     }catch(e){

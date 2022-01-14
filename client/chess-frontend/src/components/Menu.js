@@ -189,9 +189,9 @@ class Menu extends Component {
                                  href="#">Games</a>
                               <div className="dropdown-menu">
                                   <a className="dropdown-item" aria-current="page" href="#" onClick={this.matchmaking}>Matchmaking</a>
-                                  <a className="dropdown-item" aria-current="page" href="#" onClick={this.playWithBot}>Play with Bot</a>
+                                  {/* <a className="dropdown-item" aria-current="page" href="#" onClick={this.playWithBot}>Play with Bot</a> */}
                                   <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.matches}>Your Matches</a>
-                                  <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.watch}>Watch Gamess</a>
+                                  {/* <a className="dropdown-item hidden show-log-in" aria-current="page" href="#" onClick={this.watch}>Watch Games</a> */}
                               </div>
                           </li>
                           <li className="nav-item hidden show-log-in">

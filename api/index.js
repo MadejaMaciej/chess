@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 
 const getters = require('./get/index')
 const socketsMain = require('./sockets/index')
+const { gameUtils } = require('./utils/game')
 
 const register = require('./api/register')
 const login = require('./api/login')
@@ -21,6 +22,7 @@ mongoose.connect('mongodb://localhost/chess', { useNewUrlParser: true,  useUnifi
 
 getters(app)
 socketsMain(io)
+gameUtils(io)
 
 app.use(cors())
 

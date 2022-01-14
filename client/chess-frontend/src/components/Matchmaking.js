@@ -1,7 +1,6 @@
 import React, { 
     Component
 } from 'react'
-import { user } from '../actions/user-actions'
 
 import {
     socket 
@@ -28,6 +27,12 @@ class Matchmaking extends Component {
                 refreshToken
             }))
         }
+    }
+
+    componentDidMount(){
+        socket.on('gameCreated', (props) => {
+            this.props.history.push(props.UUID)
+        })
     }
   
     render(){
