@@ -242,8 +242,9 @@ var hostGame = async (p1, p2, type, time, timeMs ) => {
         logs: [`${sendingDate}: Game has been created. White: ${p1.username}. Black: ${p2.username}.`],
         finished: false,
         username1: p1.username,
-        username2: p2.username
-    }, ['UUID', 'pgn', 'fens', 'players', 'gameSettings', 'logs', 'finished', 'username1', 'username2']))
+        username2: p2.username,
+        winner: ''
+    }, ['UUID', 'pgn', 'fens', 'players', 'gameSettings', 'logs', 'finished', 'username1', 'username2', 'winner']))
     await game.save()
     io.to(p1.id).emit('gameCreated', ({UUID: game.UUID}))
     io.to(p2.id).emit('gameCreated', ({UUID: game.UUID}))

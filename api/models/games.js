@@ -38,6 +38,9 @@ const Game = mongoose.model('Game', new mongoose.Schema({
     username2: {
         type: String,
         required: true
+    },
+    winner: {
+        type: String
     }
 }))
  
@@ -51,7 +54,8 @@ function validateGame(game) {
            logs: Joi.array().required(),
            finished: Joi.boolean.required(),
            username1: Joi.string().required(),
-           username2: Joi.string().required()
+           username2: Joi.string().required(),
+           winner: Joi.string()
     })
     const validation = schema.validate(game)
     return validation
