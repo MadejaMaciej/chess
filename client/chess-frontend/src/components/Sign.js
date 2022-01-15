@@ -9,6 +9,8 @@ import {
 
 import { connect } from 'react-redux'
 
+import { Redirect } from 'react-router'
+
 var that
   
   class Sign extends Component {
@@ -62,36 +64,38 @@ var that
   
     render(){
       return(
-        <div className="row">
-          <div id="login" className="left login col-6-sm">
+        <div className='light-bg main'>
+          <div className="d-flex h-100">
+            <div id="login" className="left login w-50 dark-right-border d-block text-center py-5">
+              <label>
+                Username
+                <input id="lusername" className="own-input d-block" placeholder="Username" type="text"/>
+              </label>
+              <label>
+                Password
+                <input id="lpassword" className="own-input d-block" type="password"/>
+              </label>
+              <button className="own-btn btn" onClick={this.signIn}>Sign In</button>
+            </div>
+            <div id="register" className="right register w-50 text-center py-5">
             <label>
-              Username
-              <input id="lusername" className="own-input" placeholder="Username" type="text"/>
-            </label>
-            <label>
-              Password
-              <input id="lpassword" className="own-input" type="password"/>
-            </label>
-            <button className="own-btn btn" onClick={this.signIn}>Sign In</button>
-          </div>
-          <div id="register" className="right register col-6-sm">
-          <label>
-              Username
-              <input id="rusername" className="own-input" placeholder="Username" type="text"/>
-            </label>
-            <label>
-              Password
-              <input id="rpassword" className="own-input" type="password" />
-            </label>
-            <label>
-              Repeat Password
-              <input id="rpassword-repeat" className="own-input" type="password" />
-            </label>
-            <label>
-              <input id="checkbox" type="checkbox" required/>
-              I read and agree with Privacy Policy and Terms and Conditions
-            </label>
-            <button className="own-btn btn" onClick={this.signUp}>Sign Up</button>
+                Username
+                <input id="rusername" className="own-input d-block" placeholder="Username" type="text"/>
+              </label>
+              <label>
+                Password
+                <input id="rpassword" className="own-input d-block" type="password" />
+              </label>
+              <label>
+                Repeat Password
+                <input id="rpassword-repeat" className="own-input d-block" type="password" />
+              </label>
+              <label>
+                <input id="checkbox" type="checkbox" required/>
+                I read and agree with Privacy Policy and Terms and Conditions
+              </label>
+              <button className="own-btn btn" onClick={this.signUp}>Sign Up</button>
+            </div>
           </div>
         </div>
       )

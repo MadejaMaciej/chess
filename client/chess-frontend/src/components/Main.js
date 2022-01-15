@@ -19,6 +19,7 @@ import {
     }
 
     componentDidMount(){
+      socket.emit('enteredMain')
       socket.on('displayPlayersOnline', props => {
         that.setState({
           playersOnline: props.playerCounter, 

@@ -95,7 +95,7 @@ class Game extends Component {
         }
         if(toRender == 0){
             return (
-                <div id="promotion-white" className="alligned-middle board-bg text-center px-5 py-5 radius small-padding-mobile hidden">
+                <div id="promotion-white" className="alligned-middle board-bg text-center px-5 py-5 radius small-padding-mobile hidden bg-brown">
                     <h2 className="white-font text-center my-2">Choose a Piece!</h2>
                     <div className="d-flex">
                         <img id="r" src="/img/wr.png" alt="White rook" onClick={that.moveFromModal} className="small-image text-center mx-2 my-2 clickable" />
@@ -107,7 +107,7 @@ class Game extends Component {
             )
         }else{
             return (
-                <div id="promotion-black" className="alligned-middle board-bg text-center px-5 py-5 radius small-padding-mobile hidden">
+                <div id="promotion-black" className="alligned-middle board-bg text-center px-5 py-5 radius small-padding-mobile hidden bg-brown">
                     <h2 className="white-font text-center my-2">Choose a Piece!</h2>
                     <div className="d-flex">
                         <img id="r" src="/img/br.png" alt="Black rook" onClick={that.moveFromModal} className="small-image text-center mx-2 my-2 clickable" />
@@ -459,13 +459,12 @@ class Game extends Component {
     render(){
         return(
             <div>
-                Chess
                 <div className="game">
-                <div className="chessboard text-right">
+                <div className="chessboard text-right pt-5 text-center light-bg main">
                     {this.renderModals(0)}
                     {this.renderModals(1)}
-                    {this.state.playerWhite}
-                    {this.state.playerBlack}
+                    {/* {this.state.playerWhite}
+                    {this.state.playerBlack} */}
                     <div id="gameStatus"></div>
                     <Chessboard 
                     position={this.state.fen} 
