@@ -27,7 +27,10 @@ class OngoingMatches extends Component {
         socket.on('matches', (props) => {
             var jsxArr = []
             for(let i = 0; i < props.length; i++){
-                jsxArr.push(<div><button onClick={that.rejoinGame} id={props[i].UUID}>Rejoin</button></div>)
+                jsxArr.push(<div className='mx-auto text-center'>
+                    <p><b>Game ID: {props[i].UUID}</b></p>
+                    <button className='btn own-btn' onClick={that.rejoinGame} id={props[i].UUID}>Rejoin</button>
+                </div>)
             }
 
             that.setState({
@@ -42,9 +45,11 @@ class OngoingMatches extends Component {
   
     render(){
         return(
-            <div>
-                Chess:
-                {this.state.matches}
+            <div className='full-bg light-bg'>
+                <h2 className='text-center py-4'>Your games</h2>
+                <div className='d-flex'>
+                    {this.state.matches}
+                </div>
             </div>
         ) 
     }

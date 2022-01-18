@@ -44,6 +44,7 @@ var that
           if(passwordInput.value == repeatPasswordInput.value){
             that.props.register(loginInput.value, passwordInput.value)
             window.localStorage.setItem("tried", "register")
+            that.props.history.push("/")
           }else{
             that.passwordsNotIdentical()
           }
@@ -59,6 +60,7 @@ var that
       if(loginInput && passwordInput){
         that.props.login(loginInput.value, passwordInput.value)
         window.localStorage.setItem("tried", "login")
+        that.props.history.push("/")
       }
     }
   

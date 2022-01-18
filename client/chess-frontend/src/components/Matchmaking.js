@@ -37,18 +37,20 @@ class Matchmaking extends Component {
   
     render(){
         return(
-            <div>
-                Matchmaking
-                <div className="row">
-                    <div className="card speed-chess">
-                        <button value="5+0" className="clickable card-button" onClick={this.startMatchmaking}>
-                            5+0
-                        </button>
-                    </div>
-                    <div className="card speed-chess">
-                        <button value="5+3" className="clickable card-button" onClick={this.startMatchmaking}>
-                            5+3
-                        </button>
+            <div className='light-bg full-bg'>
+                <h2 className='text-center py-4'>Matchmaking</h2>
+                <div className='max-width mx-auto'>
+                    <div className="d-flex">
+                        <div className="card speed-chess mx-5">
+                            <button value="5+0" className="clickable card-button full" onClick={this.startMatchmaking}>
+                                5+0
+                            </button>
+                        </div>
+                        <div className="card speed-chess mx-5">
+                            <button value="5+3" className="clickable card-button full" onClick={this.startMatchmaking}>
+                                5+3
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -162,4 +162,29 @@ input#checkbox {
 
 [data-boardid="0"] {
     margin: 0 auto;
-  }
+}
+
+.max-width {
+    width: max-content;
+}
+
+.card {
+    width: 200px;
+    height: 200px;
+    background:#000;
+}
+
+.full {
+    height: 100%;
+}
+
+.card-button {
+    background: transparent;
+    color: #fff;
+    font-size: 25px;
+    border: none;
+}
+
+.full-bg {
+    height: calc(100vh - 90px);
+}
